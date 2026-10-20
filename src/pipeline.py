@@ -71,3 +71,39 @@ def rodar_pipeline(caminho_csv: str, marca: str) -> pd.DataFrame:
         print(f"Removidas {antes - depois} linhas duplicadas")
 
     return df_padrao
+
+def agregar_por_cliente(dados: pd.DataFrame) -> pd.DataFrame:
+    """Agrega o dataframe padronizado (nivel pedido) para nivel cliente."""
+    por_cliente = dados.groupby(["marca", "customer_id"]).agg(
+        ultima_compra=("data_pedido", "max"),
+        primeira_compra=("data_pedido", "min"),
+        total_pedidos=("order_id", "count"),
+        total_gasto=("valor_total", "sum"),
+        ticket_medio=("valor_total", "mean"),
+        categorias_distintas=("categoria_produto", "nunique"),
+    ).reset_index()
+    return por_cliente
+
+
+def definir_churn(por_cliente: pd.DataFrame, percentil: float = 0.75) -> pd.DataFrame:
+    """Define o alvo de churn usando um limite adaptativo por marca (percentil
+    da distribuicao de dias desde a ultima compra, calculado separadamente
+    para cada marca). Ver docs/definicao_churn.md para o racional completo.
+    """
+    por_cliente = por_cliente.copy()
+    data_ref = por_cliente.groupby("marca")["ultima_compra"].transform("max")
+    por_cliente["dias_desde_ultima_compra"] = (data_ref - por_cliente["ultima_compra"]).dt.days
+
+    limite = por_cliente.groupby("marca")["dias_desde_ultima_compra"].transform(
+        lambda x: x.quantile(percentil)
+    )
+    por_cliente["limite_churn_dias"] = limite
+    por_cliente["churn"] = (por_cliente["dias_desde_ultima_compra"] > limite).astype(int)
+
+    # frequencia de compra do proprio cliente (usado como feature no modelo)
+    intervalo_total = (por_cliente["ultima_compra"] - por_cliente["primeira_compra"]).dt.days
+    por_cliente["intervalo_medio_compra"] = (
+        intervalo_total / por_cliente["total_pedidos"].clip(lower=1)
+    ).fillna(0)
+
+    return por_cliente

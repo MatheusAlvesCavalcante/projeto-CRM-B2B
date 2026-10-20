@@ -1,0 +1,4 @@
+modelo,roc_auc,pr_auc,precisao_conv,recall_conv,f1_conv
+Regressao Logistica,0.982,0.361,0.195,0.985,0.326
+Random Forest,1.0,1.0,1.0,0.91,0.953
+Gradient Boosting,1.0,1.0,1.0,1.0,1.0

@@ -8,8 +8,8 @@ para os caminhos relativos de data/processed/ funcionarem)
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Gobeaute — CRM B2B", layout="wide")
-st.title("Gobeaute — Inteligencia de CRM B2B")
+st.set_page_config(page_title="CRM B2B", layout="wide")
+st.title("Inteligencia de CRM B2B")
 st.caption(
     "Demonstracao com dados publicos (Kaggle) simulando duas marcas diferentes "
     "no mesmo pipeline. Troque a marca no seletor abaixo."

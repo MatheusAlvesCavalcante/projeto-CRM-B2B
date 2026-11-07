@@ -59,7 +59,7 @@ Antes de comemorar 100%, investiguei — número perfeito quase sempre é sinal 
 
 Com só 10 níveis de decisão (61 "folhas"), uma árvore simples já memoriza os 100 mil registros perfeitamente. Isso é a assinatura de um **dataset sintético gerado por uma regra fixa** combinando algumas variáveis — não existe isso em dado real de comportamento humano, que sempre tem ruído.
 
-**O que isso significa para a apresentação:** o 100% de acerto prova que o *pipeline* funciona (o modelo consegue aprender qualquer padrão presente nos dados), mas **não** deve ser vendido como "é assim que vai performar com os dados reais da Gobeaute". Isso deve ser dito com todas as letras na reunião — é sinal de rigor técnico saber explicar isso, não esconder.
+**O que isso significa para a apresentação:** o 100% de acerto prova que o *pipeline* funciona (o modelo consegue aprender qualquer padrão presente nos dados), mas **não** deve ser vendido como "é assim que vai performar com os dados reais da empresa". Isso deve ser dito com todas as letras na reunião — é sinal de rigor técnico saber explicar isso, não esconder.
 
 **Escolha: Gradient Boosting**, para usar na demonstração (melhor desempenho entre os três), com essa ressalva documentada.
 

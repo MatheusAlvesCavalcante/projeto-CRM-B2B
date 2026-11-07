@@ -31,7 +31,7 @@ def recomendar_mix(dados: pd.DataFrame, top_n: int = 2) -> pd.DataFrame:
     """Para cada cliente, recomenda as top_n categorias mais populares da
     marca dele que ele ainda nao comprou."""
     popularidade = calcular_popularidade_categorias(dados)
-
+    ticket_cat = dados.groupby(["marca", "categoria_produto"])["valor_total"].mean().to_dict()
     comprados = dados.groupby(["marca", "customer_id"])["categoria_produto"].apply(set).reset_index()
     comprados = comprados.rename(columns={"categoria_produto": "categorias_compradas"})
 
@@ -47,6 +47,7 @@ def recomendar_mix(dados: pd.DataFrame, top_n: int = 2) -> pd.DataFrame:
                 "marca": marca,
                 "customer_id": linha["customer_id"],
                 "categorias_sugeridas": ", ".join(sugestoes) if sugestoes else "ja comprou de tudo",
+                 "potencial_estimado": round(sum(ticket_cat[(marca, c)] for c in sugestoes), 2),
             })
 
     return pd.DataFrame(recomendacoes)

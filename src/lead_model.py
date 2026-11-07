@@ -12,7 +12,7 @@ Isso nao acontece em dados reais, que sempre tem ruido.
 Decisao: usar Gradient Boosting para a demonstracao (melhor desempenho),
 mas deixar claro na apresentacao que o numero de 100% reflete a natureza
 sintetica do dataset publico, nao uma promessa de desempenho em producao
-com dados reais da Gobeaute.
+com dados reais da empresa.
 """
 import pandas as pd
 from sklearn.ensemble import GradientBoostingClassifier
